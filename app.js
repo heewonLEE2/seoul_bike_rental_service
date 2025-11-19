@@ -1,4 +1,4 @@
-const apiKey = "6f6d45546f676d6c32346f486a7955";
+const apiKey = '6f6d45546f676d6c32346f486a7955';
 let map;
 let dataArr = [];
 let currentInfowindow = null;
@@ -9,31 +9,31 @@ let currentStations = []; // 현재 표시된 대여소 목록
 
 // 서울 주요 구역 (25개 자치구의 중심좌표)
 const seoulDistricts = [
-  { name: "종로구", lat: 37.5735, lng: 126.9788 },
-  { name: "중구", lat: 37.5641, lng: 126.9979 },
-  { name: "용산구", lat: 37.5311, lng: 126.981 },
-  { name: "성동구", lat: 37.5634, lng: 127.0371 },
-  { name: "광진구", lat: 37.5384, lng: 127.0822 },
-  { name: "동대문구", lat: 37.5744, lng: 127.0396 },
-  { name: "중랑구", lat: 37.6063, lng: 127.0925 },
-  { name: "성북구", lat: 37.5894, lng: 127.0167 },
-  { name: "강북구", lat: 37.6396, lng: 127.0257 },
-  { name: "도봉구", lat: 37.6688, lng: 127.0471 },
-  { name: "노원구", lat: 37.6542, lng: 127.0568 },
-  { name: "은평구", lat: 37.6027, lng: 126.9291 },
-  { name: "서대문구", lat: 37.5791, lng: 126.9368 },
-  { name: "마포구", lat: 37.5663, lng: 126.9019 },
-  { name: "양천구", lat: 37.517, lng: 126.8664 },
-  { name: "강서구", lat: 37.5509, lng: 126.8495 },
-  { name: "구로구", lat: 37.4954, lng: 126.8874 },
-  { name: "금천구", lat: 37.4519, lng: 126.8955 },
-  { name: "영등포구", lat: 37.5264, lng: 126.8962 },
-  { name: "동작구", lat: 37.5124, lng: 126.9393 },
-  { name: "관악구", lat: 37.4784, lng: 126.9516 },
-  { name: "서초구", lat: 37.4837, lng: 127.0324 },
-  { name: "강남구", lat: 37.5172, lng: 127.0473 },
-  { name: "송파구", lat: 37.5145, lng: 127.1059 },
-  { name: "강동구", lat: 37.5301, lng: 127.1238 },
+  { name: '종로구', lat: 37.5735, lng: 126.9788 },
+  { name: '중구', lat: 37.5641, lng: 126.9979 },
+  { name: '용산구', lat: 37.5311, lng: 126.981 },
+  { name: '성동구', lat: 37.5634, lng: 127.0371 },
+  { name: '광진구', lat: 37.5384, lng: 127.0822 },
+  { name: '동대문구', lat: 37.5744, lng: 127.0396 },
+  { name: '중랑구', lat: 37.6063, lng: 127.0925 },
+  { name: '성북구', lat: 37.5894, lng: 127.0167 },
+  { name: '강북구', lat: 37.6396, lng: 127.0257 },
+  { name: '도봉구', lat: 37.6688, lng: 127.0471 },
+  { name: '노원구', lat: 37.6542, lng: 127.0568 },
+  { name: '은평구', lat: 37.6027, lng: 126.9291 },
+  { name: '서대문구', lat: 37.5791, lng: 126.9368 },
+  { name: '마포구', lat: 37.5663, lng: 126.9019 },
+  { name: '양천구', lat: 37.517, lng: 126.8664 },
+  { name: '강서구', lat: 37.5509, lng: 126.8495 },
+  { name: '구로구', lat: 37.4954, lng: 126.8874 },
+  { name: '금천구', lat: 37.4519, lng: 126.8955 },
+  { name: '영등포구', lat: 37.5264, lng: 126.8962 },
+  { name: '동작구', lat: 37.5124, lng: 126.9393 },
+  { name: '관악구', lat: 37.4784, lng: 126.9516 },
+  { name: '서초구', lat: 37.4837, lng: 127.0324 },
+  { name: '강남구', lat: 37.5172, lng: 127.0473 },
+  { name: '송파구', lat: 37.5145, lng: 127.1059 },
+  { name: '강동구', lat: 37.5301, lng: 127.1238 },
 ];
 
 async function loadData() {
@@ -43,7 +43,7 @@ async function loadData() {
   try {
     for (let start = 1; start <= totalData; start += pageSize) {
       const end = Math.min(start + pageSize - 1, totalData);
-      const APIURL = `http://openapi.seoul.go.kr:8088/${apiKey}/json/bikeList/${start}/${end}/`;
+      const APIURL = `/api/bikes?start=${start}&end=${end}`;
 
       const response = await fetch(APIURL);
       const data = await response.json();
@@ -56,7 +56,7 @@ async function loadData() {
     console.log(`전체 데이터 수집 완료: 총 ${dataArr.length}개`);
     displayClusters(); // 초기에는 클러스터 표시
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error('Error fetching data:', error);
   }
 }
 
@@ -91,8 +91,8 @@ function displayClusters() {
     const position = new kakao.maps.LatLng(district.lat, district.lng);
 
     // 커스텀 오버레이로 동그란 클러스터 마커 생성
-    const content = document.createElement("div");
-    content.className = "cluster-marker";
+    const content = document.createElement('div');
+    content.className = 'cluster-marker';
     content.innerHTML = `
       <div class="cluster-label">${district.name}</div>
       <div class="cluster-circle">
@@ -110,7 +110,7 @@ function displayClusters() {
     overlay.setMap(map);
 
     // 클러스터 클릭 이벤트
-    content.addEventListener("click", function () {
+    content.addEventListener('click', function () {
       showSidebarWithStations(district.lat, district.lng, district.name);
     });
 
@@ -123,17 +123,17 @@ function displayClusters() {
 // 사이드바 표시 및 대여소 마커 표시
 function showSidebarWithStations(centerLat, centerLng, districtName) {
   // 지도 축소 및 이동
-  const mapElement = document.getElementById("map");
-  const sidebar = document.getElementById("sidebar");
-  const mainTitle = document.getElementById("mainTitle");
-  const resetBtn = document.getElementById("resetBtn");
+  const mapElement = document.getElementById('map');
+  const sidebar = document.getElementById('sidebar');
+  const mainTitle = document.getElementById('mainTitle');
+  const resetBtn = document.getElementById('resetBtn');
 
-  mapElement.classList.add("shrink");
-  mainTitle.classList.add("shift-left");
+  mapElement.classList.add('shrink');
+  mainTitle.classList.add('shift-left');
 
   setTimeout(() => {
-    sidebar.classList.add("open");
-    resetBtn.classList.add("show");
+    sidebar.classList.add('open');
+    resetBtn.classList.add('show');
   }, 200);
 
   // 지도 중심 이동 및 확대
@@ -190,7 +190,7 @@ function displayStationsInArea(centerLat, centerLng, districtName) {
     });
 
     // 마커 클릭 이벤트
-    kakao.maps.event.addListener(marker, "click", function () {
+    kakao.maps.event.addListener(marker, 'click', function () {
       if (currentInfowindow) {
         currentInfowindow.close();
       }
@@ -212,7 +212,7 @@ function displayStationsInArea(centerLat, centerLng, districtName) {
 
 // 사이드바에 대여소 리스트 표시
 function displayStationList(districtName, filteredStations = null) {
-  const listContainer = document.getElementById("stationList");
+  const listContainer = document.getElementById('stationList');
   const stationsToDisplay = filteredStations || currentStations;
 
   listContainer.innerHTML = `<div style="padding: 10px; background: #e3f2fd; margin-bottom: 10px; border-radius: 6px;">
@@ -225,24 +225,24 @@ function displayStationList(districtName, filteredStations = null) {
 
   // 이름에서 숫자와 점 제거 후 오름차순 정렬
   const sortedStations = [...stationsToDisplay].sort((a, b) => {
-    const nameA = a.stationName.replace(/^\d+\.\s*/, "").trim();
-    const nameB = b.stationName.replace(/^\d+\.\s*/, "").trim();
-    return nameA.localeCompare(nameB, "ko");
+    const nameA = a.stationName.replace(/^\d+\.\s*/, '').trim();
+    const nameB = b.stationName.replace(/^\d+\.\s*/, '').trim();
+    return nameA.localeCompare(nameB, 'ko');
   });
 
   sortedStations.forEach((station, index) => {
     const available = station.rackTotCnt - station.parkingBikeTotCnt;
-    const availableClass = available > 0 ? "available" : "unavailable";
+    const availableClass = available > 0 ? 'available' : 'unavailable';
 
     // 원래 배열에서의 인덱스 찾기 (마커와 매칭하기 위해)
     const originalIndex = currentStations.indexOf(station);
 
-    const item = document.createElement("div");
-    item.className = "station-item";
-    item.setAttribute("data-index", originalIndex);
+    const item = document.createElement('div');
+    item.className = 'station-item';
+    item.setAttribute('data-index', originalIndex);
 
     // 이름에서 숫자와 점 제거
-    const displayName = station.stationName.replace(/^\d+\.\s*/, "").trim();
+    const displayName = station.stationName.replace(/^\d+\.\s*/, '').trim();
 
     item.innerHTML = `
       <div class="station-name">${displayName}</div>
@@ -255,13 +255,13 @@ function displayStationList(districtName, filteredStations = null) {
     `;
 
     // 리스트 아이템 클릭 이벤트
-    item.addEventListener("click", function () {
+    item.addEventListener('click', function () {
       // 모든 아이템에서 active 클래스 제거
-      document.querySelectorAll(".station-item").forEach((el) => {
-        el.classList.remove("active");
+      document.querySelectorAll('.station-item').forEach((el) => {
+        el.classList.remove('active');
       });
       // 현재 아이템에 active 클래스 추가
-      item.classList.add("active");
+      item.classList.add('active');
 
       // 해당 마커 위치로 지도 이동 (지도가 60%이므로 중심 조정)
       const markerData = stationMarkers[originalIndex];
@@ -282,16 +282,16 @@ function displayStationList(districtName, filteredStations = null) {
 
 // 검색 기능 초기화
 function initSearch() {
-  const searchInput = document.getElementById("searchInput");
+  const searchInput = document.getElementById('searchInput');
   let currentDistrictName =
-    document.querySelector(".station-list > div > strong")?.textContent || "";
+    document.querySelector('.station-list > div > strong')?.textContent || '';
 
-  searchInput.value = ""; // 검색창 초기화
+  searchInput.value = ''; // 검색창 초기화
 
-  searchInput.addEventListener("input", function (e) {
+  searchInput.addEventListener('input', function (e) {
     const searchTerm = e.target.value.trim().toLowerCase();
 
-    if (searchTerm === "") {
+    if (searchTerm === '') {
       // 검색어가 비어있으면 전체 목록 표시
       displayStationList(currentDistrictName);
       return;
@@ -300,7 +300,7 @@ function initSearch() {
     // 현재 표시된 대여소 중에서 검색
     const filteredStations = currentStations.filter((station) => {
       const stationName = station.stationName
-        .replace(/^\d+\.\s*/, "")
+        .replace(/^\d+\.\s*/, '')
         .trim()
         .toLowerCase();
       return stationName.includes(searchTerm);
@@ -335,23 +335,23 @@ function clearAllMarkers() {
 
 // 사이드바 닫기
 function closeSidebar() {
-  const mapElement = document.getElementById("map");
-  const sidebar = document.getElementById("sidebar");
-  const mainTitle = document.getElementById("mainTitle");
-  const resetBtn = document.getElementById("resetBtn");
-  const searchInput = document.getElementById("searchInput");
+  const mapElement = document.getElementById('map');
+  const sidebar = document.getElementById('sidebar');
+  const mainTitle = document.getElementById('mainTitle');
+  const resetBtn = document.getElementById('resetBtn');
+  const searchInput = document.getElementById('searchInput');
 
-  sidebar.classList.remove("open");
-  resetBtn.classList.remove("show");
+  sidebar.classList.remove('open');
+  resetBtn.classList.remove('show');
 
   // 검색창 초기화
   if (searchInput) {
-    searchInput.value = "";
+    searchInput.value = '';
   }
 
   setTimeout(() => {
-    mapElement.classList.remove("shrink");
-    mainTitle.classList.remove("shift-left");
+    mapElement.classList.remove('shrink');
+    mainTitle.classList.remove('shift-left');
 
     // 지도 크기가 변경되었으므로 재조정
     setTimeout(() => {
@@ -389,13 +389,13 @@ function closeInfowindow() {
 
 window.onload = () => {
   kakao.maps.load(function () {
-    map = new kakao.maps.Map(document.getElementById("map"), {
+    map = new kakao.maps.Map(document.getElementById('map'), {
       center: new kakao.maps.LatLng(37.5665, 126.978),
       level: 8,
     });
 
     // 지도 레벨 변경 이벤트
-    kakao.maps.event.addListener(map, "zoom_changed", function () {
+    kakao.maps.event.addListener(map, 'zoom_changed', function () {
       const level = map.getLevel();
       if (level >= 7 && stationMarkers.length > 0) {
         // 줌 아웃하면 다시 클러스터 표시
@@ -404,12 +404,12 @@ window.onload = () => {
     });
 
     // 지도 클릭 시 인포윈도우 닫기
-    kakao.maps.event.addListener(map, "click", function () {
+    kakao.maps.event.addListener(map, 'click', function () {
       closeInfowindow();
     });
 
     // 전체 화면 버튼
-    document.getElementById("resetBtn").addEventListener("click", function () {
+    document.getElementById('resetBtn').addEventListener('click', function () {
       closeSidebar();
     });
 
