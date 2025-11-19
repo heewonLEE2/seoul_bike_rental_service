@@ -94,21 +94,8 @@ function displayClusters() {
     const content = document.createElement("div");
     content.className = "cluster-marker";
     content.innerHTML = `
-      <div style="
-        background: #4285f4;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: bold;
-        font-size: 16px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        cursor: pointer;
-        border: 3px solid white;
-      ">
+      <div class="cluster-label">${district.name}</div>
+      <div class="cluster-circle">
         ${count}
       </div>
     `;
@@ -117,6 +104,7 @@ function displayClusters() {
       position: position,
       content: content,
       yAnchor: 0.5,
+      zIndex: 1000,
     });
 
     overlay.setMap(map);
@@ -217,17 +205,26 @@ function displayStationsInArea(centerLat, centerLng, districtName) {
 
   // 사이드바에 리스트 표시
   displayStationList(districtName);
+
+  // 검색 기능 초기화
+  initSearch();
 }
 
 // 사이드바에 대여소 리스트 표시
-function displayStationList(districtName) {
+function displayStationList(districtName, filteredStations = null) {
   const listContainer = document.getElementById("stationList");
+  const stationsToDisplay = filteredStations || currentStations;
+
   listContainer.innerHTML = `<div style="padding: 10px; background: #e3f2fd; margin-bottom: 10px; border-radius: 6px;">
-    <strong>${districtName}</strong> - 총 ${currentStations.length}개 대여소
+    <strong>${districtName}</strong> - ${
+    filteredStations
+      ? `검색 결과: ${filteredStations.length}개`
+      : `총 ${currentStations.length}개 대여소`
+  }
   </div>`;
 
   // 이름에서 숫자와 점 제거 후 오름차순 정렬
-  const sortedStations = [...currentStations].sort((a, b) => {
+  const sortedStations = [...stationsToDisplay].sort((a, b) => {
     const nameA = a.stationName.replace(/^\d+\.\s*/, "").trim();
     const nameB = b.stationName.replace(/^\d+\.\s*/, "").trim();
     return nameA.localeCompare(nameB, "ko");
@@ -283,6 +280,37 @@ function displayStationList(districtName) {
   });
 }
 
+// 검색 기능 초기화
+function initSearch() {
+  const searchInput = document.getElementById("searchInput");
+  let currentDistrictName =
+    document.querySelector(".station-list > div > strong")?.textContent || "";
+
+  searchInput.value = ""; // 검색창 초기화
+
+  searchInput.addEventListener("input", function (e) {
+    const searchTerm = e.target.value.trim().toLowerCase();
+
+    if (searchTerm === "") {
+      // 검색어가 비어있으면 전체 목록 표시
+      displayStationList(currentDistrictName);
+      return;
+    }
+
+    // 현재 표시된 대여소 중에서 검색
+    const filteredStations = currentStations.filter((station) => {
+      const stationName = station.stationName
+        .replace(/^\d+\.\s*/, "")
+        .trim()
+        .toLowerCase();
+      return stationName.includes(searchTerm);
+    });
+
+    // 검색 결과 표시
+    displayStationList(currentDistrictName, filteredStations);
+  });
+}
+
 // 모든 마커 제거
 function clearAllMarkers() {
   // 클러스터 마커 제거
@@ -311,9 +339,15 @@ function closeSidebar() {
   const sidebar = document.getElementById("sidebar");
   const mainTitle = document.getElementById("mainTitle");
   const resetBtn = document.getElementById("resetBtn");
+  const searchInput = document.getElementById("searchInput");
 
   sidebar.classList.remove("open");
   resetBtn.classList.remove("show");
+
+  // 검색창 초기화
+  if (searchInput) {
+    searchInput.value = "";
+  }
 
   setTimeout(() => {
     mapElement.classList.remove("shrink");

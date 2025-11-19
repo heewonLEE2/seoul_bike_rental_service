@@ -1,24 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bike Rental Heewon</title>
+    <title>Seoul Bike - 서울 자전거 대여소</title>
     <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <h1 id="mainTitle">Bike Rental Heewon</h1>
+    <div class="header-bg"></div>
+    <header>
+      <div class="logo">
+        <img src="./icon.ico" alt="Seoul Bike Logo" class="logo-icon" />
+        <h1 id="mainTitle">Seoul Bike</h1>
+      </div>
+      <p class="subtitle">서울시 공공자전거 대여소 실시간 현황</p>
+    </header>
+
     <div class="container">
       <div id="map">
-        <button id="resetBtn" class="reset-btn">전체 화면</button>
+        <button id="resetBtn" class="reset-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0L0 8L8 16L16 8L8 0ZM8 2L14 8L8 14L2 8L8 2Z" />
+          </svg>
+          전체 화면
+        </button>
       </div>
       <div id="sidebar" class="sidebar">
         <div class="sidebar-header">
-          <h2>대여소 목록</h2>
+          <h2>📍 대여소 목록</h2>
+          <div class="search-container">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="대여소 검색..."
+              autocomplete="off"
+            />
+            <svg
+              class="search-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              />
+            </svg>
+          </div>
         </div>
         <div id="stationList" class="station-list"></div>
       </div>
     </div>
+
     <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fe4f0e53a33978d3c032979f482e2365&libraries=services"
