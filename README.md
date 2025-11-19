@@ -1,5 +1,7 @@
 # 🚴 Seoul Bike - 서울 자전거 대여소 실시간 현황
 
+## Vercel을 이용해 배포 Click! ➡️ [![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://seoul-bike-rental-service.vercel.app/)
+
 ### 서울시 공공자전거(따릉이) 대여소의 실시간 현황을 지도에서 확인할 수 있는 웹 애플리케이션입니다.
 <img src="./images/seoul_Bike.gif">
 
