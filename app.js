@@ -43,7 +43,7 @@ async function loadData() {
   try {
     for (let start = 1; start <= totalData; start += pageSize) {
       const end = Math.min(start + pageSize - 1, totalData);
-      const APIURL = `http://openapi.seoul.go.kr:8088/${apiKey}/json/bikeList/${start}/${end}/`;
+      const APIURL = `https://openapi.seoul.go.kr:8088/${apiKey}/json/bikeList/${start}/${end}/`;
 
       const response = await fetch(APIURL);
       const data = await response.json();
