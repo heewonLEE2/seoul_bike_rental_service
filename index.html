@@ -7,8 +7,18 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <h1>Bike Rental Heewon</h1>
-    <div id="map"></div>
+    <h1 id="mainTitle">Bike Rental Heewon</h1>
+    <div class="container">
+      <div id="map">
+        <button id="resetBtn" class="reset-btn">전체 화면</button>
+      </div>
+      <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+          <h2>대여소 목록</h2>
+        </div>
+        <div id="stationList" class="station-list"></div>
+      </div>
+    </div>
     <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fe4f0e53a33978d3c032979f482e2365&libraries=services"
