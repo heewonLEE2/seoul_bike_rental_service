@@ -54,7 +54,7 @@ cd seoul-bike
 #### 서울시 공공 API 키
 1. [서울 열린데이터광장](https://data.seoul.go.kr/)에서 회원가입
 2. 공공자전거 실시간 대여정보 API 신청
-3. `app.js` 파일의 `apiKey` 변수에 본인의 API 키 입력:
+3. `api` 폴더의 `bikes.js` 파일의 `apiKey` 변수에 본인의 API 키 입력:
 ```javascript
 const apiKey = "YOUR_SEOUL_API_KEY";
 ```
